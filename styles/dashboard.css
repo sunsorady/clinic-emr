@@ -625,49 +625,24 @@
   padding: 0 24px;
 }
 
-/* ===== Desktop default sidebar ===== */
-.sidebar{
-  width: 260px;
-  min-width: 260px;
-  transition: width 180ms ease;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-}
+/* Desktop only hover expand */
+@media (min-width: 769px){
+  .sidebar{
+    width: 86px;
+    min-width: 86px;
+  }
+  .sidebar:hover{
+    width: 260px;
+    min-width: 260px;
+  }
 
-/* ===== Desktop collapsed state ===== */
-.sidebar.sidebarCollapsed{
-  width: 86px;
-  min-width: 86px;
-}
-
-/* Hide text when collapsed (optional) */
-.sidebar.sidebarCollapsed .navText{
-  display:none;
+  .sidebar .navText{ display:none; }
+  .sidebar:hover .navText{ display:inline; }
 }
 @media (max-width: 768px){
   .sidebar{
-    width: 180px !important;
-    min-width: 180px !important;
+    width: 180px;
+    min-width: 180px;
   }
-
-  /* Even if JS tries to collapse, mobile overrides it */
-  .sidebar.sidebarCollapsed{
-    width: 180px !important;
-    min-width: 180px !important;
-  }
-
-  .sidebar .navText{
-    display:inline !important;
-  }
-}
-
-@media (max-width: 480px){
-  .sidebar{
-    width: 160px !important;
-    min-width: 160px !important;
-  }
-  .sidebar.sidebarCollapsed{
-    width: 160px !important;
-    min-width: 160px !important;
-  }
+  .sidebar .navText{ display:inline; }
 }
