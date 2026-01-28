@@ -249,14 +249,14 @@ body{
 
   /* ✅ Phone: responsive logo (portrait-safe) */
   .logo{
-    width: 80%;
+    width: 65%;
     max-width: 200px;
     height: auto;       /* keep auto, no fixed height */
   }
 
   .logoWrap{
     margin-top: -2px;
-    margin-bottom: -200px;
+    margin-bottom: 4px;
   }
 
   .label{ font-size:14px; }
