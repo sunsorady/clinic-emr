@@ -81,8 +81,8 @@ body{
 }
 
 .logo{
-  width: 60%;
-  max-width: 200px;
+  width: 70%;
+  max-width: 220px;
   aspect-ratio: 1 / 1;
   height: auto;
   object-fit: contain;
