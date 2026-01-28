@@ -80,14 +80,14 @@ body{
   margin-bottom: 12px;
 }
 
-.logoWrap{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  margin-top: -6px;   /* pull logo up slightly */
-  margin-bottom: -90px; /* reduce empty space */
+.logo{
+  width: 60%;
+  max-width: 200px;
+  aspect-ratio: 1 / 1;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 24px rgba(11,142,138,0.18));
 }
-
 
 .logo{
   width: 350px;
@@ -273,8 +273,9 @@ body{
 }
 
 /* Small phones */
-@media (max-width: 360px) {
+@media (max-width: 480px) {
   .card{
-    max-width: 340px;
+    max-width: 400px;   /* was 360–380 */
   }
 }
+
