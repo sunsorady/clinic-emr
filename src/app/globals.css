@@ -170,3 +170,60 @@ body{
 html, body {
   font-family: "Times New Roman", Times, serif;
 }
+
+/* ===== Mobile fixes ===== */
+@media (max-width: 480px) {
+  .login {
+    padding: 12px;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 360px;
+    padding: 20px 18px;
+    border-radius: 18px;
+  }
+
+  .logo {
+    max-width: 110px;
+    margin-bottom: 8px;
+  }
+
+  .label {
+    font-size: 14px;
+  }
+
+  .input {
+    height: 44px;
+    font-size: 15px;
+  }
+
+  .btn {
+    height: 46px;
+    font-size: 16px;
+    border-radius: 12px;
+  }
+
+  .muted,
+  .pill {
+    font-size: 13px;
+  }
+
+  .footerKhmer {
+    margin-top: 12px;
+    font-size: 12px;
+    opacity: 0.7;
+  }
+}
+
+@media (max-width: 480px) {
+  .bgImage {
+    background-position: center;
+    background-size: cover;
+    opacity: 0.35;
+  }
+}
+
+.header {
+  margin-bottom: 12px;
+}

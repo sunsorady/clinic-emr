@@ -22,6 +22,7 @@ export const khmerFont = Kantumruy_Pro({
 export const metadata: Metadata = {
   title: "Clinic EMR",
   description: "Clinic EMR System",
+  viewport: "width=device-width, initial-scale=1, viewport-fit=cover",
 };
 
 export default function RootLayout({
