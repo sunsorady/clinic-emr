@@ -1,7 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import Link from "next/link";
+import { useMemo, useState, useEffect, useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { supabase } from "../lib/supabaseClient";
 
@@ -10,7 +9,9 @@ type Item = { label: string; href: string };
 export default function TopBar() {
   const router = useRouter();
   const pathname = usePathname();
+
   const [open, setOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const items: Item[] = useMemo(
     () => [
@@ -26,7 +27,29 @@ export default function TopBar() {
     return found?.label ?? "Dashboard";
   }, [items, pathname]);
 
+  // ✅ Close dropdown when tapping outside
+  useEffect(() => {
+    function handleClickOutside(e: Event) {
+      if (
+        open &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target as Node)
+      ) {
+        setOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("touchstart", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
+    };
+  }, [open]);
+
   async function handleLogout() {
+    setOpen(false);
     await supabase.auth.signOut();
     router.replace("/");
   }
@@ -42,7 +65,7 @@ export default function TopBar() {
         <div className="topbarTitle">{title}</div>
 
         {/* Mobile dropdown */}
-        <div className="topbarDropdown">
+        <div className="topbarDropdown" ref={dropdownRef}>
           <button
             type="button"
             className="btnGhost menuBtn"
@@ -59,7 +82,9 @@ export default function TopBar() {
                 <button
                   key={it.href}
                   role="menuitem"
-                  className={`menuItem ${pathname?.startsWith(it.href) ? "active" : ""}`}
+                  className={`menuItem ${
+                    pathname?.startsWith(it.href) ? "active" : ""
+                  }`}
                   onClick={() => go(it.href)}
                 >
                   {it.label}
