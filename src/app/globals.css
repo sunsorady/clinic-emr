@@ -4,25 +4,37 @@
   --gold:#F2B233;
   --ink:#0F172A;
   --muted:#64748B;
+
   --card: rgba(255,255,255,0.78);
   --border: rgba(15,23,42,0.10);
+
+  --shadow: 0 22px 70px rgba(13, 38, 76, 0.14);
 }
 
 *{ box-sizing:border-box; }
 html,body{ height:100%; }
+
 body{
   margin:0;
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans";
   color: var(--ink);
   background:#F7FAFC;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans";
 }
 
+/* Khmer helper */
+.khmer{
+  font-family: var(--font-khmer), ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans";
+}
+
+/* =========================
+   LOGIN PAGE
+========================= */
 .login{
   min-height:100vh;
   position:relative;
   display:grid;
   place-items:center;
-  padding:28px 16px;
+  padding: 28px 16px;
   overflow:hidden;
   background:
     radial-gradient(900px 450px at 15% 15%, rgba(11,142,138,0.18), transparent 60%),
@@ -51,49 +63,88 @@ body{
 }
 
 .card{
-  width:min(560px, 95vw);
+  width:min(560px, 92vw);
   border-radius:22px;
   background:var(--card);
   border:1px solid var(--border);
-  box-shadow:0 22px 70px rgba(13, 38, 76, 0.14);
-  backdrop-filter:blur(14px);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   padding:28px 26px;
   position:relative;
   z-index:2;
 }
 
-.header{ text-align:center; padding-bottom:14px; }
-.logoWrap{ display:flex; justify-content:center; align-items:center; margin-top: -20px;margin-bottom: -150px;; }
+.header{
+  text-align:center;
+  margin-bottom: 12px;
+}
+
+.logoWrap{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin: 0 0 10px 0;
+}
+
 .logo{
-  width:400px; height:400px; object-fit:contain;
+  width: 150px;
+  height: 150px;
+  object-fit:contain;
   filter: drop-shadow(0 10px 24px rgba(11,142,138,0.18));
 }
+
 .logoFallback{
-  width:92px; height:92px; border-radius:20px;
-  display:grid; place-items:center;
-  font-weight:900; font-size:34px; color:#fff;
+  width:92px;
+  height:92px;
+  border-radius:20px;
+  display:grid;
+  place-items:center;
+  font-weight:900;
+  font-size:34px;
+  color:#fff;
   background:linear-gradient(145deg, var(--teal), var(--teal2));
   box-shadow:0 14px 30px rgba(11,142,138,0.22);
 }
 
-.title{ margin:8px 0 4px; font-size:36px; letter-spacing:-0.5px; font-weight:900; }
-.subtitle{ margin:0; color:var(--muted); font-weight:600; }
+.form{
+  display:grid;
+  gap:12px;
+  margin-top:6px;
+}
 
-.form{ display:grid; gap:12px; margin-top:6px; }
-.label{ font-weight:800; color:var(--ink); font-size:16px; }
-.row{ display:flex; align-items:center; justify-content:space-between; margin-top:6px; }
+.label{
+  font-weight:800;
+  color:var(--ink);
+  font-size:16px;
+}
+
+.row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-top:6px;
+}
 
 .link{
-  border:none; background:transparent;
-  color:var(--gold); font-weight:900;
-  cursor:pointer; padding:0; font-size:15px;
+  border:none;
+  background:transparent;
+  color:var(--gold);
+  font-weight:900;
+  cursor:pointer;
+  padding:0;
+  font-size:15px;
 }
 
 .inputWrap{ position:relative; }
+
 .icon{
-  position:absolute; left:14px; top:50%;
+  position:absolute;
+  left:14px;
+  top:50%;
   transform:translateY(-50%);
-  opacity:0.55; font-size:16px;
+  opacity:0.55;
+  font-size:16px;
 }
 
 .input{
@@ -102,7 +153,9 @@ body{
   border-radius:14px;
   border:1px solid rgba(15,23,42,0.12);
   background: rgba(255,255,255,0.92);
-  outline:none; font-size:16px;
+  outline:none;
+  font-size:16px;
+  line-height: 1.2;
 }
 
 .input:focus{
@@ -114,11 +167,19 @@ body{
   margin-top:6px;
   width:100%;
   padding:14px 16px;
-  border:none; border-radius:16px;
+  border:none;
+  border-radius:16px;
   cursor:pointer;
-  color:white; font-weight:900; font-size:18px;
+  color:white;
+  font-weight:900;
+  font-size:18px;
   background: linear-gradient(90deg, #E0A31D, var(--gold));
   box-shadow: 0 16px 30px rgba(242,178,51,0.25);
+}
+
+.btn:disabled{
+  opacity:0.7;
+  cursor:not-allowed;
 }
 
 .muted{ color:var(--muted); font-weight:700; }
@@ -126,32 +187,21 @@ body{
 
 .pill{
   margin:2px auto 0;
-  display:flex; justify-content:center; align-items:center;
-  gap:10px; color:#3b556e;
-  font-weight:800; font-size:14px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+  color:#3b556e;
+  font-weight:800;
+  font-size:14px;
 }
 
 .dot{
-  width:10px; height:10px; border-radius:99px;
+  width:10px;
+  height:10px;
+  border-radius:99px;
   background: var(--gold);
   box-shadow: 0 0 0 5px rgba(242,178,51,0.18);
-}
-
-.copyright{
-  margin:10px 0 0;
-  text-align:center;
-  color: rgba(15,23,42,0.55);
-  font-weight:700;
-}
-
-@media (max-width:420px){
-  .card{ padding:22px 18px; }
-  .title{ font-size:30px; }
-  .logo{ width:92px; height:92px; }
-}
-
-.khmer {
-  font-family: var(--font-khmer), sans-serif;
 }
 
 .footerKhmer{
@@ -163,67 +213,66 @@ body{
 
 .footerKhmer .khmer{
   text-align: center;
-  font-size: 15px;      /* or keep your text-sm equivalent */
-  color: #9ca3af;       /* Tailwind gray-400/500 vibe */
+  font-size: 13px;
+  color: rgba(15,23,42,0.45);
+  font-weight: 700;
 }
 
-html, body {
-  font-family: "Times New Roman", Times, serif;
-}
-
-/* ===== Mobile fixes ===== */
+/* =========================
+   MOBILE (iPhone friendly)
+========================= */
 @media (max-width: 480px) {
-  .login {
-    padding: 12px;
+  .login{
+    padding:
+      calc(12px + env(safe-area-inset-top))
+      12px
+      calc(12px + env(safe-area-inset-bottom));
   }
 
-  .card {
-    width: 100%;
-    max-width: 360px;
-    padding: 20px 18px;
-    border-radius: 18px;
+  .bgImage{
+    background-position:center;
+    background-size:cover;
+    opacity:0.34;
   }
 
-  .logo {
-    max-width: 110px;
-    margin-bottom: 8px;
+  .card{
+    width:100%;
+    max-width: 380px;
+    padding:20px 18px;
+    border-radius:18px;
   }
 
-  .label {
-    font-size: 14px;
+  .logo{
+    width:110px;
+    height:110px;
   }
 
-  .input {
-    height: 44px;
-    font-size: 15px;
+  .label{ font-size:14px; }
+
+  .input{
+    font-size:15px;
+    padding:12px 12px 12px 42px;
   }
 
-  .btn {
-    height: 46px;
-    font-size: 16px;
-    border-radius: 12px;
+  .btn{
+    font-size:16px;
+    border-radius:12px;
+    padding:12px 14px;
   }
+
+  .link{ font-size:14px; }
 
   .muted,
-  .pill {
-    font-size: 13px;
-  }
+  .pill{ font-size:13px; }
 
-  .footerKhmer {
-    margin-top: 12px;
-    font-size: 12px;
-    opacity: 0.7;
+  .footerKhmer .khmer{
+    font-size:12px;
   }
 }
 
-@media (max-width: 480px) {
-  .bgImage {
-    background-position: center;
-    background-size: cover;
-    opacity: 0.35;
+/* Small phones */
+@media (max-width: 360px) {
+  .card{
+    max-width: 340px;
   }
-}
-
-.header {
-  margin-bottom: 12px;
 }
