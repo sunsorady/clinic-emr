@@ -99,8 +99,8 @@
 
 /* Top logo box */
 .brandIcon.logoBox{
-  width: 160px;
-  height: 160px;
+  width: 100px;
+  height: 100px;
   border-radius: 18px;
   background: rgba(15,163,160,0.08);
   display:grid;
@@ -108,8 +108,8 @@
 }
 
 .brandLogo{
-  width: 100%;
-  height: 100%;
+  width: 90%;
+  height: 90%;
   object-fit: contain;
 }
 
@@ -625,3 +625,49 @@
   padding: 0 24px;
 }
 
+/* ===== Desktop default sidebar ===== */
+.sidebar{
+  width: 260px;
+  min-width: 260px;
+  transition: width 180ms ease;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ===== Desktop collapsed state ===== */
+.sidebar.sidebarCollapsed{
+  width: 86px;
+  min-width: 86px;
+}
+
+/* Hide text when collapsed (optional) */
+.sidebar.sidebarCollapsed .navText{
+  display:none;
+}
+@media (max-width: 768px){
+  .sidebar{
+    width: 180px !important;
+    min-width: 180px !important;
+  }
+
+  /* Even if JS tries to collapse, mobile overrides it */
+  .sidebar.sidebarCollapsed{
+    width: 180px !important;
+    min-width: 180px !important;
+  }
+
+  .sidebar .navText{
+    display:inline !important;
+  }
+}
+
+@media (max-width: 480px){
+  .sidebar{
+    width: 160px !important;
+    min-width: 160px !important;
+  }
+  .sidebar.sidebarCollapsed{
+    width: 160px !important;
+    min-width: 160px !important;
+  }
+}
