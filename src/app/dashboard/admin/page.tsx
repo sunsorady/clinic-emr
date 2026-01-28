@@ -1,81 +1,157 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import Link from "next/link";
 
-type Role = "Admin" | "Doctor" | "Nurse" | "Reception";
+type RoleUI = "Admin" | "Doctor" | "Nurse" | "Reception";
+type RoleDB = "admin" | "doctor" | "nurse" | "reception";
+
 type Status = "Active" | "Invited" | "Disabled";
 
 type Staff = {
   id: string;
   name: string;
   email: string;
-  role: Role;
+  role: RoleUI;
   status: Status;
 };
 
+function uiRoleToDb(role: RoleUI): RoleDB {
+  switch (role) {
+    case "Admin":
+      return "admin";
+    case "Doctor":
+      return "doctor";
+    case "Nurse":
+      return "nurse";
+    case "Reception":
+      return "reception";
+  }
+}
+
+function dbRoleToUi(role: string): RoleUI {
+  const r = (role || "").toLowerCase();
+  if (r === "admin") return "Admin";
+  if (r === "nurse") return "Nurse";
+  if (r === "reception") return "Reception";
+  return "Doctor";
+}
+
+function statusFromProfile(p: any): Status {
+  // If you later add a "disabled" column in profiles, update here.
+  // For now: invited users may have no "last_sign_in_at" info from profiles.
+  // We'll infer "Invited" if full_name is empty AND created recently, but better is storing a status column.
+  // We'll take a simple rule:
+  // - If profile has "role" but no name yet => Invited
+  // - else => Active
+  const hasName = Boolean(p?.full_name && String(p.full_name).trim());
+  return hasName ? "Active" : "Invited";
+}
+
 export default function AdminPage() {
   const [inviteEmail, setInviteEmail] = useState("");
-  const [inviteRole, setInviteRole] = useState<Role>("Doctor");
+  const [inviteRole, setInviteRole] = useState<RoleUI>("Doctor");
 
-  const [staff, setStaff] = useState<Staff[]>([
-    {
-      id: "1",
-      name: "Dr. Sarah Johnson",
-      email: "sjohnson@clinic.com",
-      role: "Doctor",
-      status: "Active",
-    },
-    {
-      id: "2",
-      name: "Dr. Michael Chen",
-      email: "mchen@clinic.com",
-      role: "Doctor",
-      status: "Active",
-    },
-    {
-      id: "3",
-      name: "Nurse Emily Davis",
-      email: "edavis@clinic.com",
-      role: "Nurse",
-      status: "Active",
-    },
-  ]);
+  const [staff, setStaff] = useState<Staff[]>([]);
+  const [loadingStaff, setLoadingStaff] = useState(true);
+  const [staffError, setStaffError] = useState<string | null>(null);
 
-  const roleOptions = useMemo<Role[]>(
+  const [inviteLoading, setInviteLoading] = useState(false);
+  const [inviteMsg, setInviteMsg] = useState<string | null>(null);
+
+  const roleOptions = useMemo<RoleUI[]>(
     () => ["Admin", "Doctor", "Nurse", "Reception"],
     []
   );
 
-  function sendInvitation(e: React.FormEvent) {
+  async function loadStaff() {
+    setLoadingStaff(true);
+    setStaffError(null);
+
+    try {
+      const res = await fetch("/api/admin/staff", { cache: "no-store" });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to load staff");
+
+      const mapped: Staff[] = (data.staff ?? []).map((p: any) => ({
+        id: p.id,
+        name: p.full_name?.trim() ? p.full_name : "Pending user",
+        email: p.email ?? "",
+        role: dbRoleToUi(p.role),
+        status: statusFromProfile(p),
+      }));
+
+      setStaff(mapped);
+    } catch (e: any) {
+      setStaffError(e?.message ?? "Failed to load staff");
+      setStaff([]);
+    } finally {
+      setLoadingStaff(false);
+    }
+  }
+
+  useEffect(() => {
+    loadStaff();
+  }, []);
+
+  async function sendInvitation(e: React.FormEvent) {
     e.preventDefault();
+    setInviteMsg(null);
 
     const email = inviteEmail.trim().toLowerCase();
     if (!email) return;
 
-    // Demo duplicate check
+    // Client-side duplicate check (still also enforce on server/db)
     if (staff.some((s) => s.email.toLowerCase() === email)) {
-      alert("This email is already in the staff list.");
+      setInviteMsg("❌ This email is already in the staff list.");
       return;
     }
 
-    setStaff((prev) => [
-      {
-        id: crypto.randomUUID(),
-        name: "Pending user",
-        email,
-        role: inviteRole,
-        status: "Invited",
-      },
-      ...prev,
-    ]);
+    setInviteLoading(true);
+    try {
+      const res = await fetch("/api/admin/invite", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          role: uiRoleToDb(inviteRole),
+        }),
+      });
 
-    setInviteEmail("");
-    setInviteRole("Doctor");
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Invite failed");
+
+      setInviteMsg("✅ Invitation sent.");
+      setInviteEmail("");
+      setInviteRole("Doctor");
+
+      await loadStaff();
+    } catch (err: any) {
+      setInviteMsg(`❌ ${err?.message ?? "Invite failed"}`);
+    } finally {
+      setInviteLoading(false);
+    }
   }
 
-  function removeStaff(id: string) {
-    setStaff((prev) => prev.filter((s) => s.id !== id));
+  async function removeStaff(id: string) {
+    // Optional: You can change this to "Disable" instead of deleting
+    const ok = confirm("Remove this staff member?");
+    if (!ok) return;
+
+    try {
+      const res = await fetch("/api/admin/remove", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Remove failed");
+
+      await loadStaff();
+    } catch (e: any) {
+      alert(e?.message ?? "Remove failed");
+    }
   }
 
   return (
@@ -123,7 +199,7 @@ export default function AdminPage() {
                     id="inviteRole"
                     className="select"
                     value={inviteRole}
-                    onChange={(e) => setInviteRole(e.target.value as Role)}
+                    onChange={(e) => setInviteRole(e.target.value as RoleUI)}
                   >
                     {roleOptions.map((r) => (
                       <option key={r} value={r}>
@@ -134,10 +210,22 @@ export default function AdminPage() {
                 </div>
 
                 <div className="adminActions">
-                  <button className="btn btnTeal btnWide" type="submit">
+                  <button
+                    className="btn btnTeal btnWide"
+                    type="submit"
+                    disabled={inviteLoading}
+                    aria-disabled={inviteLoading}
+                    title={inviteLoading ? "Sending..." : "Send Invitation"}
+                  >
                     <span aria-hidden="true">👤+</span>
-                    Send Invitation
+                    {inviteLoading ? "Sending..." : "Send Invitation"}
                   </button>
+
+                  {inviteMsg && (
+                    <div className="muted" style={{ marginTop: 10 }}>
+                      {inviteMsg}
+                    </div>
+                  )}
                 </div>
               </form>
             </div>
@@ -149,6 +237,19 @@ export default function AdminPage() {
           <div className="card">
             <div className="cardHeader">
               <h2 className="cardTitle">Current Staff</h2>
+              <button className="btnMini" type="button" onClick={loadStaff}>
+                Refresh
+              </button>
+            </div>
+
+            <div className="cardBody">
+              {loadingStaff ? (
+                <div className="muted">Loading…</div>
+              ) : staffError ? (
+                <div className="muted" style={{ color: "crimson" }}>
+                  {staffError}
+                </div>
+              ) : null}
             </div>
 
             {/* Keeps table inside rounded card */}
@@ -187,7 +288,7 @@ export default function AdminPage() {
                     </tr>
                   ))}
 
-                  {staff.length === 0 && (
+                  {!loadingStaff && staff.length === 0 && (
                     <tr>
                       <td className="td muted" colSpan={5}>
                         No staff yet.
@@ -197,6 +298,7 @@ export default function AdminPage() {
                 </tbody>
               </table>
             </div>
+
           </div>
         </div>
       </div>
@@ -204,7 +306,7 @@ export default function AdminPage() {
   );
 }
 
-function StatusPill({ status }: { status: Status }) {
+function StatusPill({ status }: { status: "Active" | "Invited" | "Disabled" }) {
   const cls =
     status === "Active"
       ? "statusPill statusActive"

@@ -8,6 +8,7 @@
 /* ----------------------------
    Tokens
 ---------------------------- */
+
 :root{
   /* Logo palette */
   --teal-900:#055f5c;
@@ -585,7 +586,7 @@
   background-size: contain;
   background-position: center;
 
-  opacity: 100;            /* 🔑 subtle */
+  opacity: .18;            /* 🔑 subtle */
   pointer-events: none;     /* never blocks clicks */
   z-index: 0;
 }
@@ -699,3 +700,197 @@
   .desktopOnly{ display:none; }
 }
 
+/* Appointments table clean style */
+.emrWrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.emrTableBox {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  overflow-x: auto;
+}
+
+.emrTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.emrTable th {
+  text-align: left;
+  font-weight: 600;
+  padding: 12px 14px;
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+  white-space: nowrap;
+}
+
+.emrTable td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #eef2f7;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.emrTable tr:hover td {
+  background: #f9fafb;
+}
+
+.emrActions button {
+  border: 1px solid #d1d5db;
+  background: #fff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+.emrActions button:hover {
+  background: #f3f4f6;
+}
+
+/* ============================
+   Modal (EMR clean, single source of truth)
+   - Removes duplicate definitions
+   - Better spacing + mobile layout
+============================ */
+.modalOverlay{
+  position: fixed;
+  inset: 0;
+  background: rgba(15,23,42,.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: grid;
+  place-items: center;
+  z-index: 9999;
+  padding: 22px;
+}
+
+.modalCard{
+  width: min(920px, 96vw);
+  max-height: min(86vh, 920px);
+  overflow: auto;              /* scroll inside card */
+  border-radius: 22px;
+  border: 1px solid rgba(15,23,42,.10);
+  box-shadow: 0 30px 90px rgba(2,12,27,.35);
+  background: rgba(255,255,255,.97);
+}
+
+/* Header */
+.modalHeaderRow{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap: 16px;
+}
+
+.modalSub{
+  margin-top: 6px;
+  color: var(--muted);
+  font-weight: 650;
+  font-size: 13px;
+}
+
+/* Form layout */
+.modalGrid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 16px;
+}
+
+.modalGridFull{
+  grid-column: 1 / -1;
+}
+
+.modalLabel{
+  display:block;
+  font-weight: 900;
+  color: #0f172a;
+  margin-bottom: 8px;
+}
+
+/* Segmented toggle */
+.segRow{
+  display:flex;
+  gap: 10px;
+  align-items:center;
+  margin: 6px 0 14px;
+}
+
+.seg{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  height: 42px;
+  padding: 0 14px;
+  border-radius: 14px;
+  font-weight: 950;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.85);
+  cursor:pointer;
+  white-space: nowrap;
+  transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+}
+.seg:hover{ background:#f8fafc; }
+.seg:active{ transform: translateY(1px); }
+
+.segActive{
+  border-color: transparent;
+  color: #fff;
+  background: linear-gradient(135deg, var(--teal-600), var(--teal-700));
+  box-shadow: 0 12px 26px rgba(15,163,160,.25);
+}
+
+/* Footer */
+.modalFooter{
+  display:flex;
+  justify-content:flex-end;
+  gap: 10px;
+  padding-top: 14px;
+  border-top: 1px solid #eef2f7;
+  margin-top: 16px;
+}
+
+.btnMiniSoft{
+  height: 44px;
+  padding: 0 14px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: #fff;
+  font-weight: 900;
+  cursor:pointer;
+}
+.btnMiniSoft:hover{ background:#f6f7f9; }
+
+.btnPrimaryWide{
+  height: 44px;
+  min-width: 220px;
+  padding: 0 16px;
+  border-radius: 14px;
+  border: 0;
+  cursor:pointer;
+  font-weight: 950;
+  color:#fff;
+  background: linear-gradient(135deg, var(--teal-600), var(--teal-700));
+  box-shadow: 0 12px 26px rgba(15,163,160,.22);
+  transition: transform 120ms ease, filter 120ms ease;
+}
+.btnPrimaryWide:hover{ filter: brightness(.98); transform: translateY(-1px); }
+.btnPrimaryWide:active{ transform: translateY(0); }
+.btnPrimaryWide:disabled{
+  opacity: .65;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Make modal single-column on small screens */
+@media (max-width: 760px){
+  .modalGrid{ grid-template-columns: 1fr; }
+  .segRow{ flex-wrap: wrap; }
+  .seg{ width: 100%; }
+}
