@@ -1,0 +1,172 @@
+:root{
+  --teal:#0B8E8A;
+  --teal2:#0A7E7A;
+  --gold:#F2B233;
+  --ink:#0F172A;
+  --muted:#64748B;
+  --card: rgba(255,255,255,0.78);
+  --border: rgba(15,23,42,0.10);
+}
+
+*{ box-sizing:border-box; }
+html,body{ height:100%; }
+body{
+  margin:0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans";
+  color: var(--ink);
+  background:#F7FAFC;
+}
+
+.login{
+  min-height:100vh;
+  position:relative;
+  display:grid;
+  place-items:center;
+  padding:28px 16px;
+  overflow:hidden;
+  background:
+    radial-gradient(900px 450px at 15% 15%, rgba(11,142,138,0.18), transparent 60%),
+    radial-gradient(900px 450px at 80% 85%, rgba(242,178,51,0.18), transparent 60%),
+    linear-gradient(180deg, #F9FBFF, #F6FAFF);
+}
+
+.bgImage{
+  position:absolute;
+  inset:0;
+  background-image:url("/bg/login-bg.png");
+  background-size:cover;
+  background-position:center;
+  opacity:0.44;
+  pointer-events:none;
+}
+
+.bgTint{
+  position:absolute;
+  inset:-50px;
+  background:
+    radial-gradient(800px 420px at 10% 10%, rgba(242,178,51,0.16), transparent 60%),
+    radial-gradient(900px 500px at 90% 90%, rgba(11,142,138,0.18), transparent 60%),
+    repeating-linear-gradient(45deg, rgba(255,255,255,0.10) 0 12px, rgba(255,255,255,0) 12px 24px);
+  pointer-events:none;
+}
+
+.card{
+  width:min(560px, 95vw);
+  border-radius:22px;
+  background:var(--card);
+  border:1px solid var(--border);
+  box-shadow:0 22px 70px rgba(13, 38, 76, 0.14);
+  backdrop-filter:blur(14px);
+  padding:28px 26px;
+  position:relative;
+  z-index:2;
+}
+
+.header{ text-align:center; padding-bottom:14px; }
+.logoWrap{ display:flex; justify-content:center; align-items:center; margin-top: -20px;margin-bottom: -150px;; }
+.logo{
+  width:400px; height:400px; object-fit:contain;
+  filter: drop-shadow(0 10px 24px rgba(11,142,138,0.18));
+}
+.logoFallback{
+  width:92px; height:92px; border-radius:20px;
+  display:grid; place-items:center;
+  font-weight:900; font-size:34px; color:#fff;
+  background:linear-gradient(145deg, var(--teal), var(--teal2));
+  box-shadow:0 14px 30px rgba(11,142,138,0.22);
+}
+
+.title{ margin:8px 0 4px; font-size:36px; letter-spacing:-0.5px; font-weight:900; }
+.subtitle{ margin:0; color:var(--muted); font-weight:600; }
+
+.form{ display:grid; gap:12px; margin-top:6px; }
+.label{ font-weight:800; color:var(--ink); font-size:16px; }
+.row{ display:flex; align-items:center; justify-content:space-between; margin-top:6px; }
+
+.link{
+  border:none; background:transparent;
+  color:var(--gold); font-weight:900;
+  cursor:pointer; padding:0; font-size:15px;
+}
+
+.inputWrap{ position:relative; }
+.icon{
+  position:absolute; left:14px; top:50%;
+  transform:translateY(-50%);
+  opacity:0.55; font-size:16px;
+}
+
+.input{
+  width:100%;
+  padding:14px 14px 14px 44px;
+  border-radius:14px;
+  border:1px solid rgba(15,23,42,0.12);
+  background: rgba(255,255,255,0.92);
+  outline:none; font-size:16px;
+}
+
+.input:focus{
+  border-color: rgba(11,142,138,0.40);
+  box-shadow: 0 0 0 6px rgba(11,142,138,0.10);
+}
+
+.btn{
+  margin-top:6px;
+  width:100%;
+  padding:14px 16px;
+  border:none; border-radius:16px;
+  cursor:pointer;
+  color:white; font-weight:900; font-size:18px;
+  background: linear-gradient(90deg, #E0A31D, var(--gold));
+  box-shadow: 0 16px 30px rgba(242,178,51,0.25);
+}
+
+.muted{ color:var(--muted); font-weight:700; }
+.center{ text-align:center; }
+
+.pill{
+  margin:2px auto 0;
+  display:flex; justify-content:center; align-items:center;
+  gap:10px; color:#3b556e;
+  font-weight:800; font-size:14px;
+}
+
+.dot{
+  width:10px; height:10px; border-radius:99px;
+  background: var(--gold);
+  box-shadow: 0 0 0 5px rgba(242,178,51,0.18);
+}
+
+.copyright{
+  margin:10px 0 0;
+  text-align:center;
+  color: rgba(15,23,42,0.55);
+  font-weight:700;
+}
+
+@media (max-width:420px){
+  .card{ padding:22px 18px; }
+  .title{ font-size:30px; }
+  .logo{ width:92px; height:92px; }
+}
+
+.khmer {
+  font-family: var(--font-khmer), sans-serif;
+}
+
+.footerKhmer{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 14px;
+}
+
+.footerKhmer .khmer{
+  text-align: center;
+  font-size: 15px;      /* or keep your text-sm equivalent */
+  color: #9ca3af;       /* Tailwind gray-400/500 vibe */
+}
+
+html, body {
+  font-family: "Times New Roman", Times, serif;
+}

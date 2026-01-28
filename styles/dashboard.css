@@ -1,0 +1,627 @@
+/* ============================
+   Clinic EMR Dashboard Theme
+   Teal + Gold palette (logo-matched)
+   File: styles/dashboard.css
+   Imported by: src/app/dashboard/layout.tsx
+   ============================ */
+
+/* ----------------------------
+   Tokens
+---------------------------- */
+:root{
+  /* Logo palette */
+  --teal-900:#055f5c;
+  --teal-800:#077a77;
+  --teal-700:#0b8f8a;
+  --teal-600:#0fa3a0;
+  --teal-500:#18b7b2;
+  --teal-100:#e9fbfa;
+
+  --gold-800:#a87400;
+  --gold-700:#cc8f00;
+  --gold-600:#e6a900;
+  --gold-500:#f3b11b;
+  --gold-100:#fff3d6;
+
+  /* Neutrals */
+  --bg:#f6f8fa;
+  --card:#ffffff;
+  --text:#0f172a;
+  --muted:#64748b;
+  --line:#e5e7eb;
+
+  /* Effects */
+  --radius:18px;
+  --radius-sm:14px;
+  --shadow:0 10px 30px rgba(2,12,27,.06);
+  --shadow-soft:0 8px 22px rgba(2,12,27,.05);
+
+  /* Focus ring */
+  --focus:0 0 0 4px rgba(24,183,178,.22);
+
+  /* Sizes */
+  --sidebar-w:288px;
+}
+
+/* ----------------------------
+   Layout
+---------------------------- */
+.dashWrap{
+  min-height:100vh;
+  display:grid;
+  grid-template-columns: var(--sidebar-w) 1fr;
+  position:relative;
+
+  /* Background image (optional) */
+  background-image: url("/bg/medical-bg.png");
+  background-size: cover;
+  background-position: center;
+}
+
+/* Soft overlay so UI stays readable */
+.dashWrap::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: rgba(246,248,250,0.95);
+  z-index:0;
+}
+
+/* keep layout above overlay */
+.sidebar,
+.main{
+  position:relative;
+  z-index:1;
+}
+
+.main{
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+}
+
+/* ----------------------------
+   Sidebar
+---------------------------- */
+.sidebar{
+  background: var(--card);
+  border-right: 1px solid var(--line);
+  padding: 18px 14px;
+}
+
+/* Brand row */
+.brand{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding: 8px 10px 18px;
+}
+
+/* Top logo box */
+.brandIcon.logoBox{
+  width: 160px;
+  height: 160px;
+  border-radius: 18px;
+  background: rgba(15,163,160,0.08);
+  display:grid;
+  place-items:center;
+}
+
+.brandLogo{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.brandTitle{
+  font-size: 20px;
+  font-weight: 950;
+  line-height: 1.1;
+  color: var(--text);
+}
+
+.brandSub{
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 3px;
+  font-weight: 650;
+}
+
+/* Nav */
+.nav{
+  margin-top: 10px;
+  display:flex;
+  flex-direction:column;
+  gap: 6px;
+}
+
+.navItem{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding: 12px 12px;
+  border-radius: 16px;
+  text-decoration:none;
+  color: var(--text);
+  font-weight: 850;
+  position:relative;
+  transition: background 120ms ease, transform 120ms ease;
+}
+
+.navItem:hover{
+  background:#f2f4f7;
+}
+
+.navIcon{
+  width: 28px;
+  height: 28px;
+  display:grid;
+  place-items:center;
+  border-radius: 10px;
+  background:#f4f6f8;
+  color: var(--teal-600);
+}
+
+.navItemActive{
+  background: var(--teal-100);
+  color: var(--teal-700);
+}
+
+.navItemActive .navIcon{
+  background: rgba(15,163,160,0.12);
+  color: var(--teal-700);
+}
+
+/* Active indicator */
+.navItemActive::before{
+  content:"";
+  position:absolute;
+  left: 6px;
+  top: 10px;
+  bottom: 10px;
+  width: 4px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--teal-600), var(--gold-500));
+}
+
+/* ----------------------------
+   Topbar / Content
+---------------------------- */
+.topbar{
+  height:72px;
+  background: var(--card);
+  border-bottom: 1px solid var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding: 0 24px;
+}
+
+.topbarTitle{
+  font-size: 18px;
+  font-weight: 950;
+  color: var(--text);
+}
+
+.content{
+  padding: 22px 24px 40px;
+}
+
+.pageTitle{
+  font-size: 28px;
+  font-weight: 950;
+  color: var(--text);
+  margin: 10px 0 16px;
+}
+
+/* ----------------------------
+   Page width control (center)
+---------------------------- */
+.pageShell{
+  padding: 24px 0 40px;
+}
+
+.pageMax{
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.section{
+  margin-top: 16px;
+}
+
+/* Back link */
+.backLink{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  color: var(--muted);
+  text-decoration:none;
+  font-weight: 850;
+  margin-bottom: 10px;
+}
+.backLink:hover{ color: var(--text); }
+
+/* ----------------------------
+   Toolbar (Search + Button)
+---------------------------- */
+.toolbarRow{
+  display:grid;
+  grid-template-columns: 1fr 220px;
+  gap: 14px;
+  align-items:center;
+  margin-bottom: 16px;
+}
+
+/* ----------------------------
+   Cards
+---------------------------- */
+.card{
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow:hidden; /* IMPORTANT for nice rounded corners with tables */
+}
+
+.cardHeader{
+  padding: 18px 20px;
+  border-bottom: 1px solid #eef0f4;
+  background: #fafbfc;
+}
+
+.cardTitle{
+  font-size: 18px;
+  font-weight: 950;
+  color: var(--text);
+  margin: 0;
+}
+
+.cardBody{
+  padding: 18px 20px;
+}
+
+/* ----------------------------
+   Tables (clean, “complete” look)
+---------------------------- */
+.tableWrap{ padding: 10px 0 0; }
+
+.table{
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: auto;      /* ✅ important */
+}
+.th{
+  background: #f9fafb;
+  border-bottom: 1px solid var(--line);
+  font-weight: 950;
+}
+
+/*.td{
+  padding: 18px;
+  text-align:left;
+  vertical-align: middle;
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 650;
+}*/
+
+.trHover:not(:last-child) .td{
+  border-bottom: 1px solid #eef2f7;
+}
+
+.trHover:hover .td{
+  background: rgba(15,163,160,0.04);
+}
+
+/* extra “finished” bottom breathing */
+.table tbody tr:last-child .td{
+  padding-bottom: 22px;
+}
+
+.muted{
+  color: var(--muted);
+  font-weight: 650;
+}
+
+/* ----------------------------
+   Inputs
+---------------------------- */
+.inputWrap{ position: relative; }
+
+.inputIcon{
+  position:absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity:.55;
+}
+
+.input{
+  width:100%;
+  height:48px;
+  border-radius: 16px;
+  border: 1px solid #d8dde6;
+  padding: 0 14px 0 44px;
+  background:#fff;
+  outline:none;
+  transition: box-shadow 140ms ease, border-color 140ms ease;
+}
+
+.input:focus{
+  border-color: rgba(24,183,178,.75);
+  box-shadow: var(--focus);
+}
+
+/* Select */
+.select{
+  width:100%;
+  height:48px;
+  border-radius:16px;
+  border: 1px solid #d8dde6;
+  padding: 0 14px;
+  background:#fff;
+  outline:none;
+  font-weight: 850;
+}
+.select:focus{
+  border-color: rgba(24,183,178,.75);
+  box-shadow: var(--focus);
+}
+
+/* Labels */
+.labelRow{
+  display:inline-flex;
+  align-items:center;
+  gap: 8px;
+  font-weight: 900;
+  color:#1f2937;
+}
+.labelIcon{ opacity:.7; }
+
+/* ----------------------------
+   Buttons
+---------------------------- */
+.btn{
+  height:48px;
+  border-radius: 16px;
+  border:none;
+  cursor:pointer;
+  font-weight: 950;
+  letter-spacing: .2px;
+  transition: transform 120ms ease, filter 120ms ease, box-shadow 120ms ease;
+}
+
+/* Gold primary */
+.btnPrimary{
+  background: linear-gradient(135deg, var(--gold-500), var(--gold-600));
+  color:#1f2937;
+  box-shadow: 0 12px 24px rgba(243,177,27,.25);
+}
+.btnPrimary:hover{ filter: brightness(.98); transform: translateY(-1px); }
+.btnPrimary:active{ transform: translateY(0); }
+
+/* Teal action */
+.btnTeal{
+  background: linear-gradient(135deg, var(--teal-600), var(--teal-700));
+  color:#fff;
+  box-shadow: 0 12px 24px rgba(15,163,160,.22);
+  padding: 0 16px;
+}
+.btnTeal:hover{ filter: brightness(.98); transform: translateY(-1px); }
+
+.btnWide{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  width: 260px;
+  white-space: nowrap;
+}
+
+/* Ghost */
+.btnGhost{
+  background: transparent;
+  border: 1px solid var(--line);
+  padding: 10px 14px;
+  border-radius: 14px;
+  cursor:pointer;
+  font-weight: 900;
+  color: var(--text);
+}
+.btnGhost:hover{ background:#f6f7f9; }
+
+/* Small button (table action) */
+.btnMini{
+  border: 1px solid var(--line);
+  background: transparent;
+  border-radius: 12px;
+  padding: 8px 10px;
+  font-weight: 900;
+  cursor:pointer;
+}
+.btnMini:hover{ background:#f6f7f9; }
+
+/* ----------------------------
+   Status pills
+---------------------------- */
+.statusPill{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-weight: 950;
+  font-size: 13px;
+}
+
+.statusActive{
+  background:#dcfce7;
+  color:#166534;
+}
+
+.statusInvited{
+  background: var(--gold-100);
+  color:#7a5400;
+  border: 1px solid rgba(243,177,27,.35);
+}
+
+.statusDisabled{
+  background:#fee2e2;
+  color:#7f1d1d;
+}
+
+/* ----------------------------
+   Admin forms (Invite grid)
+---------------------------- */
+.adminGrid{
+  display:grid;
+  grid-template-columns: 1fr 240px;
+  gap: 16px;
+  align-items:end;
+}
+
+.adminActions{
+  grid-column: 1 / -1;
+  display:flex;
+  justify-content:flex-start;
+  margin-top: 6px;
+}
+
+.field{
+  display:flex;
+  flex-direction:column;
+  gap: 10px;
+}
+
+/* ----------------------------
+   Auto-hide sidebar (hover to reveal)
+   Requires layout wrapper to use:
+   dashWrap autoSide
+---------------------------- */
+.dashWrap.autoSide{
+  grid-template-columns: 1fr;
+}
+
+/* fixed shell for hover zone + panel */
+.sideShell{
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: var(--sidebar-w);
+  z-index: 50;
+  pointer-events: none;
+}
+
+/* hover strip */
+.sideHotZone{
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 14px;
+  height: 100vh;
+  pointer-events: auto;
+}
+
+/* sidebar panel */
+.sidePanel{
+  height: 100vh;
+  width: var(--sidebar-w);
+  transform: translateX(calc(-1 * (var(--sidebar-w) - 16px)));
+  transition: transform 180ms ease;
+  pointer-events: auto;
+  box-shadow: 0 12px 30px rgba(2,12,27,.10);
+}
+
+/* reveal on hover */
+.sideShell:hover .sidePanel{
+  transform: translateX(0);
+}
+
+/* ----------------------------
+   Responsive
+---------------------------- */
+@media (max-width: 900px){
+  .sidebar{ display:none; }
+  .toolbarRow{ grid-template-columns: 1fr; }
+  .adminGrid{ grid-template-columns: 1fr; }
+  .btnWide{ width: 100%; }
+}
+
+.tableClip{
+  overflow: hidden;
+  border-radius: var(--radius);
+}
+.th, .td{
+  padding: 16px 18px;
+  text-align: left;
+  vertical-align: middle;
+  white-space: normal;     /* ✅ allow wrap */
+  overflow: visible;       /* ✅ no clipping */
+  text-overflow: unset;    /* ✅ no ellipsis */
+  word-break: break-word;  /* ✅ long emails wrap nicely */
+}
+
+
+.th:last-child,
+.td:last-child{
+  width: 140px;
+  text-align: right;
+  white-space: nowrap;     /* keep Remove button on one line */
+}
+/* Decorative right-side panel */
+.decorPanel{
+  position: fixed;
+  right: 40px;
+  top: 140px;
+  width: 420px;
+  height: 420px;
+
+  background-image: url("/decor/clinic-hero.jpg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+
+  opacity: 100;            /* 🔑 subtle */
+  pointer-events: none;     /* never blocks clicks */
+  z-index: 0;
+}
+
+/* Hide decor on small screens */
+@media (max-width: 1100px){
+  .decorPanel{
+    display: none;
+  }
+}
+.pageMaxWide{
+  max-width: none;
+  width: 100%;
+  padding: 0 24px;
+}
+
+/* Allow Name/Email to wrap instead of "..." */
+.tdName, .tdEmail { white-space: normal; }
+
+/* Fixed Action column */
+.thAction, .tdAction {
+  width: 140px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* Scroll instead of clipping */
+.tableClip {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.pageFluid{
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0 24px;
+}
+
