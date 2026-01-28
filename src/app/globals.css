@@ -84,12 +84,14 @@ body{
   display:flex;
   justify-content:center;
   align-items:center;
-  margin: 0 0 10px 0;
+  margin-top: -6px;   /* pull logo up slightly */
+  margin-bottom: -90px; /* reduce empty space */
 }
 
+
 .logo{
-  width: 150px;
-  height: 150px;
+  width: 350px;
+  height: 350px;
   object-fit:contain;
   filter: drop-shadow(0 10px 24px rgba(11,142,138,0.18));
 }
