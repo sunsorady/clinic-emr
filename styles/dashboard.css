@@ -894,3 +894,43 @@
   .segRow{ flex-wrap: wrap; }
   .seg{ width: 100%; }
 }
+
+/* =========================
+   Staff Management Layout
+========================= */
+
+/* =========================
+   Staff page: side-by-side layout (NO overlap)
+   Add this to dashboard.css
+========================= */
+/* Fix “overlap” look (shadow stacking) */
+/* Center page content */
+.pageCenter{
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Staff cards centered, no overlap */
+.staffGrid{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 560px));
+  gap: 18px;
+  justify-content: center;   /* ✅ centers the two cards */
+  align-items: start;
+}
+
+/* Make sure cards can't overflow and "sit on top" visually */
+.staffGrid .card{
+  width: 100%;
+  min-width: 0;
+}
+
+/* Responsive: stack centered */
+@media (max-width: 1100px){
+  .staffGrid{
+    grid-template-columns: minmax(0, 720px);
+    justify-content: center;
+  }
+}
+

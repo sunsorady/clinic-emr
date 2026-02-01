@@ -89,12 +89,15 @@ export default function Page() {
               Password
             </label>
             <button
-              type="button"
-              className="link"
-              onClick={() => alert("Later: connect to password reset")}
-            >
-              Forgot password?
-            </button>
+  type="button"
+  className="link"
+  onClick={() =>
+    alert("Password reset is handled by admin.\nPlease contact: soradysun@gmail.com")
+  }
+>
+  Forgot password?
+</button>
+
           </div>
 
           <div className="inputWrap">
