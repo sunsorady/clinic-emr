@@ -156,11 +156,27 @@ export default function AppointmentsPage() {
       .order("starts_at", { ascending: true });
 
     if (error) {
-      setPageError(error.message);
-      setRows([]);
-    } else {
-      setRows((data ?? []) as Row[]);
-    }
+  setPageError(error.message);
+  setRows([]);
+} else {
+  const normalized: Row[] = (data ?? []).map((r: any) => {
+    const p = r.patients;
+
+    return {
+      id: String(r.id),
+      starts_at: String(r.starts_at),
+      doctor_name: String(r.doctor_name ?? ""),
+      department: String(r.department ?? ""),
+      status: (r.status as AppointmentStatus) ?? "Waiting",
+
+      // ✅ Supabase sometimes returns array — take first
+      patients: Array.isArray(p) ? (p[0] ?? null) : (p ?? null),
+    };
+  });
+
+  setRows(normalized);
+}
+
 
     setLoading(false);
   }
